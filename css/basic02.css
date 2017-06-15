@@ -1,0 +1,383 @@
+@charset "UTF-8";
+.clear{
+    clear: both;
+}
+/*--로그인 시 세로메뉴--*/
+.vertical_menu a, .vertical_menu label {
+  display: block;
+  padding: .85rem;
+  color: #fff;
+  background-color: #303030;
+  box-shadow: inset 0 -1px #1d1d1d;
+  -webkit-transition: all .25s ease-in;
+  transition: all .25s ease-in;
+  height:21px;
+}
+
+.vertical_menu a:focus, .vertical_menu a:hover, .vertical_menu label:focus, .vertical_menu label:hover {
+  color: rgba(255, 255, 255, 0.5);
+  background: #030303;
+  
+}
+
+.vertical_menu ul{
+  width:220px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 20px;
+  font: inherit;
+  vertical-align: baseline
+}
+
+.vertical_menu a { text-decoration: none; }
+/*-------------------------*/
+
+/*--header 부분 가로메뉴--*/
+ul#naviMain{
+    list-style: none; font-family: Times; color: #333; padding: 0px 1px 5px 5px;
+    font-size:17px;
+}
+ul#naviMain li{
+    float: left; margin: 0px 20px;
+}
+ul#naviMain a {
+    text-decoration: none; color: #333;
+}
+ul#naviMain a:hover{
+    color: #C30;
+}
+/*-------------------------*/
+
+/* 로그인 부분 레이아웃 */
+#join_button td:hover{
+    background-color:#616161;
+}
+#login{
+    height:150px;
+    width:220px;
+    background-color:white;
+    color:black;
+    border: 0px solid grey;
+    padding: 10px 0 0 7px;
+    margin-bottom:7px;
+    box-sizing:border-box;
+}
+#login a{
+    text-decoration: none;
+    color: #333;
+}
+
+.login_table{
+    border-collapse:collapse;
+}
+.td_disign{
+    border:0px;
+}
+
+
+.login_table input[type="text"], .login_table input[type="password"] { 
+    width: 140px; /* 원하는 너비 설정 */ 
+    height: 25px; /* 높이값 초기화 */ 
+    line-height : normal; /* line-height 초기화 */  
+    font-family: inherit; /* 폰트 상속 */ 
+    border: 1px solid #999; 
+    border-radius: 0; /* iSO 둥근모서리 제거 */ 
+    -webkit-appearance: none; /* 브라우저별 기본 스타일링 제거 */
+    -moz-appearance: none; 
+    appearance: none; 
+    }
+
+.td_disign a {
+    -webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    -moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    -ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    -o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    display: block;
+    margin: 0;
+    width: 62px;
+    height:59px;
+    text-decoration: none;
+    border-radius: 0px;
+    padding: 18px 0 0 9px;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
+.td_disign a.button {
+    color: rgba(30, 22, 54, 0.6);
+    box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset;
+}
+
+.td_disign a.button:hover {
+    color: rgba(255, 255, 255, 0.85);
+    box-shadow: rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;
+}
+/*-------------------------*/
+
+/* 전체 페이지에 대한 레이아웃 */
+body{
+    padding:0px;
+}
+#wrap{
+    width : 1100px;
+    margin: 0;
+    margin-right: auto;
+    margin-left: auto;
+    min-height: 900px;
+    background-color:black;
+    padding-bottom:0px;
+}
+
+header, section, aside, footer {
+    border: 0px solid #999;
+    margin: 3px;
+    padding: 10px;
+}
+nav{
+    border: 0px solid #999;
+    margin: 3px;
+    padding: 0px;
+}
+
+header {
+    background-color: white;
+    color: black;
+    
+}
+.headline_top{
+    margin-bottom:0px;
+    height:60px;
+    text-align: left;
+}
+.headline_bottom{
+    margin-top:0px;
+    height:60px;
+    padding-top:2px;
+    background-color:#f1f1f1;
+    box-sizing:border-box;
+}
+section, aside{
+    float:left;
+    background-color: white;
+    height: 800px;
+}
+
+nav {
+    float:left;
+    width:220px;
+    background-color:black;
+    height:100%;
+}
+
+section {
+    width:868px;
+    box-sizing:border-box;
+}
+
+aside {
+    width:100px;
+}
+
+footer {
+    height:80px;
+    width:100%;
+    background-color:white;
+    position: relative;
+    margin:0px;
+
+}
+
+/*------------------------------*/
+
+/*-----------리스트 페이지부분------------*/
+
+.board_write_button a {     /*글쓰기버튼디자인*/
+    -webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    -moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    -ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    -o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+    display: block;
+    margin: 0;
+    width: 62px;
+    height:30px;
+    text-decoration: none;
+    border-radius: 0px;
+    padding: 3px 0 0 9px;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
+.board_write_button a.button {
+    color: rgba(30, 22, 54, 0.6);
+    box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset;
+}
+
+.board_write_button a.button:hover {
+    color: rgba(255, 255, 255, 0.85);
+    box-shadow: rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;
+}
+
+#divPaging {        /*페이지 넘버링부분*/
+        margin:15px auto; 
+        width:auto; 
+        height:30px;
+}
+
+#divPaging a {
+        float:center;
+        margin:0 15px;
+        text-align:center;
+        font-weight:bold;
+        text-decoration:none;
+        color:black;
+}
+/*---------------------------------------*/
+
+
+
+
+
+/*------게시판 상세내용 페이지 디자인--------*/
+@import url(https://fonts.googleapis.com/css?family=BenchNine:700);
+#board_recommend_button {
+  background-color: #c47135;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: block;
+  font-family: 'BenchNine', Arial, sans-serif;
+  font-size: 1em;
+  font-size: 22px;
+  line-height: 1em;
+  margin:15px auto 0 auto;
+  outline: none;
+  padding: 12px 25px 10px;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+#board_recommend_button:before,
+#board_recommend_button:after {
+  border-color: transparent;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  border-style: solid;
+  border-width: 0;
+  content: "";
+  height: 24px;
+  position: absolute;
+  width: 24px;
+}
+#board_recommend_button:before {
+  border-color: #c47135;
+  border-right-width: 2px;
+  border-top-width: 2px;
+  right: -5px;
+  top: -5px;
+}
+#board_recommend_button:after {
+  border-bottom-width: 2px;
+  border-color: #c47135;
+  border-left-width: 2px;
+  bottom: -5px;
+  left: -5px;
+}
+#board_recommend_button:hover,
+#board_recommend_button.hover {
+  background-color: #c47135;
+}
+#board_recommend_button:hover:before,
+#board_recommend_button.hover:before,
+#board_recommend_button:hover:after,
+#board_recommend_button5.hover:after {
+  height: 100%;
+  width: 100%;
+}
+
+.view_title{
+    display:inline-block;
+    position:relative;
+    width:868px;
+    height:70px;
+    border:10px solid #dad8db;
+    box-sizing:border-box;
+    margin:3px;
+    background-color:white;
+    padding:0px;
+    font-size:20px;
+}
+.view_writer{
+    display:inline-block;
+    position:relative;
+    width:160px;
+    height:30px;
+    margin:3px;
+    margin-top:0px;
+    margin-bottom:-7px;
+    background-color:white;
+    box-sizing:border-box;
+    font-size:14px;
+    text-align:center;
+    border-top-left-radius:7px;
+    border-top-right-radius:7px;
+    
+}
+.comment{
+    display:inline-block;
+    position:relative;
+    width:868px;
+    min-height:100px;
+    margin:0px 0px 0px;
+    border-bottom:1px solid #C6C5C6; 
+    background-color:white;
+    margin-left:229px;
+    padding:15px;
+    box-sizing:border-box;
+}
+.comment td{
+    border:1px solid #C6C5C6;
+    font-size:13px;
+    height:22px;
+    padding:3px;
+    margin-bottom:10px;
+}
+.comment td.button1{
+    background-color:#BFCCFF;
+    cursor:pointer;
+}
+.comment td.button2{
+    background-color:#FFADAD;
+    cursor:pointer;
+}
+
+.comment td.button1:hover,td.button2:hover{
+    background-color:#FF4646;
+}
+.comment_input{
+    display:inline-block;
+    position:relative;
+    width:868px;
+    height:108px;
+    background-color:white;
+    margin-left:229px;
+    padding:8px;
+    box-sizing:border-box;
+}
+.comment_input input[type="submit"]{
+    width:142px;
+    height:92px;
+    margin:0px;
+    vertical-align:none;
+}
+
+/*------------------------------*/
+
+
+
+
+
+
+
