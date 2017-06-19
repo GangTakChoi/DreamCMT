@@ -119,32 +119,37 @@ if(strcmp($table,"board_free")==false){?>
 		<?php
 		$dbq = $connection->query("SELECT count(*) FROM board_free");
 		$row = $dbq->fetchColumn();
-		if($row[0]%20!=0){
-			$max_page_num = (int)($row[0]/20) + 1;
+		if($row%20!=0){
+			$max_page_num = (int)($row/20) + 1;
 		}else{
-			$max_page_num = (int)$row[0]/20;
+			$max_page_num = (int)$row/20;
 		}
 		$startpage = ((int)(($page-1)/10)*10)+1;
 		$endpage = $startpage+9;
 		if($max_page_num<$endpage)
 			$endpage = $max_page_num;
+
+		//echo "게시글 수:".$row."<br>";
+		//echo "시작 페이지 : ".$startpage."<br>";
+		//echo "마지막 페이지 : ".$endpage."<br>";
 		?>
+
 		<center>
 		
 		
 		<?php
 		if($startpage!=1)
-			echo "<a href=\"/list.php?page=".($startpage-1)."&category=".$category."\">◀</a>";
+			echo "<a href=\"/board/list.php?page=".($startpage-1)."&category=".$category."\">◀</a>";
 		for($count=$startpage;$count<=$endpage;$count++){
 
 			if($count==$page)
-				echo "<a href=\"/list.php?page=".$count."&category=".$category."\" style=\"text-decoration:underline;color:blue\">[".$count."]</a>";
+				echo "<a href=\"/board/list.php?page=".$count."&category=".$category."\" style=\"text-decoration:underline;color:blue\">[".$count."]</a>";
 			else
-				echo "<a href=\"/list.php?page=".$count."&category=".$category."\">".$count."</a>";
+				echo "<a href=\"/board/list.php?page=".$count."&category=".$category."\">".$count."</a>";
 		}
 
 		if($endpage!=$max_page_num)
-			echo "<a href=\"/list.php?page=".($endpage+1)."&category=".$category."\">▶</a>";
+			echo "<a href=\"/board/list.php?page=".($endpage+1)."&category=".$category."\">▶</a>";
 		?>
 			
 		 
