@@ -63,8 +63,8 @@ if(strcmp($table,"board_free")==false){?>
 <section> <!-- 본문 -->
 	<article class="boardArticle">
 		
-		<h3 style="display:inline;float:left">자유게시판</h3>
-		<div class="board_write_button" style="display:inline-block; float:right;margin:20px 0"><a href="/board/write.php?category=board_free" class="button">글쓰기</a></div>
+		<h3 style="display:inline;float:left;margin-top:10px">자유게시판</h3>
+		<div class="board_write_button" style="display:inline-block; float:right;margin:10px 0"><a href="/board/write.php?category=board_free" class="button">글쓰기</a></div>
 		
 		<table>
 			<thead>
@@ -97,13 +97,13 @@ if(strcmp($table,"board_free")==false){?>
 					
 					?>
 						
-						<tr onclick="location.href='/board/view.php?index=<?php echo $row[0]?>'">
-						<td class="no" style="font-size:12px"><?php echo $row[0]?></td>
-						<td class="title"><?php echo $row[1]?></td>
-						<td class="author" style="font-size:13px"><?php echo $row[2]?></td>
-						<td class="date"  style="font-size:11px"><?php echo $row[3]?></td>
-						<td class="hit" style="font-size:11px"><?php echo $row[4]?></td>
-						<td class="hit"><?php echo $row[5]?></td>
+						<tr>
+						<td class="no" style="font-size:12px"><?php echo $row['seq']?></td>
+						<td class="title"><a href='/board/view.php?index=<?php echo $row['seq']?>'><?php echo $row['title']?></a></td>
+						<td class="author" style="font-size:13px"><a href='#'><?php echo $row['writer']?></a></td>
+						<td class="date" style="font-size:11px"><?php echo $row['created']?></td>
+						<td class="hit" style="font-size:11px"><?php echo $row['hit']?></td>
+						<td class="hit"><?php echo $row['recmd']?></td>
 						</tr>
 					<?php
 				}
@@ -117,8 +117,7 @@ if(strcmp($table,"board_free")==false){?>
 	</article>
 	<div id="divPaging">
 		<?php
-		$dbq = $connection->query("SELECT count(*) FROM board_free");
-		$row = $dbq->fetchColumn();
+		$row = $connection->query("SELECT count(*) FROM board_free")->fetchColumn();
 		if($row%20!=0){
 			$max_page_num = (int)($row/20) + 1;
 		}else{

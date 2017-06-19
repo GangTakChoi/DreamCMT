@@ -13,3 +13,10 @@
 .new_board_list tr:hover{
     background-color:aliceblue;
 }
+.new_board_list a{
+    text-decoration:none;
+    color:black;
+}
+.new_board_list a:hover{
+    text-decoration:underline;
+}

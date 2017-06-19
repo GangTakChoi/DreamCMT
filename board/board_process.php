@@ -10,20 +10,23 @@ if(empty($_SESSION['is_login'])){
     </script>
     <?php
 }
-$writer = $_SESSION['id'];
 $title = $_POST['title'];
 $content = $_POST['content'];
 $category = $_POST['category'];
 $action = $_POST['action'];
 $index = $_POST['index'];
 $content = nl2br($content);
+
+$row = $connection->query("SELECT seq,nick FROM user WHERE id='".$_SESSION['id']."'")->fetch();
+
     switch($action){
         case 'board_register':        //글등록 동작일 경우
-            $dbq = $connection->prepare("INSERT INTO board_free (title,content,writer,created)
-                VALUES (:title,:content,:nickname,now())");
+            $dbq = $connection->prepare("INSERT INTO board_free (title,content,writer,writer_seq,created)
+                VALUES (:title,:content,:nickname,:writer_seq,now())");
             $dbq->bindParam(':title',$title,PDO::PARAM_STR);
             $dbq->bindParam(':content',$content,PDO::PARAM_STR);
-            $dbq->bindParam(':nickname',$_SESSION['nickname'],PDO::PARAM_STR);
+            $dbq->bindParam(':nickname',$row['nick'],PDO::PARAM_STR);
+            $dbq->bindParam(':writer_seq',$row['seq'],PDO::PARAM_INT);
             $result = $dbq->execute();
             if($result==true){
                 ?>
@@ -34,10 +37,11 @@ $content = nl2br($content);
             }
         break;
         case 'comment_register':        // 댓글 등록 동작일 경우
-            $dbq = $connection->prepare("INSERT INTO comment_free (seq_board,writer,content,created)
-                VALUES (:index,:nickname,:content,now())");
+            $dbq = $connection->prepare("INSERT INTO comment_free (seq_board,writer,writer_seq,content,created)
+                VALUES (:index,:nickname,:writer_seq,:content,now())");
             $dbq->bindParam(':index',$index,PDO::PARAM_INT);
-            $dbq->bindParam(':nickname',$_SESSION['nickname'],PDO::PARAM_STR);
+            $dbq->bindParam(':nickname',$row['nick'],PDO::PARAM_STR);
+            $dbq->bindParam(':writer_seq',$row['seq'],PDO::PARAM_STR);
             $dbq->bindParam(':content',$content,PDO::PARAM_STR);
             $result = $dbq->execute();
             if($result==true){

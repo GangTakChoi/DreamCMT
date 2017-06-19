@@ -12,7 +12,6 @@ $row = $dbq->fetch();
 if(!empty($row)){
     $_SESSION['is_login']=true;
     $_SESSION['id']=$row['id'];
-    $_SESSION['nickname']=$row['nick'];
     ?>
 
     <meta charset="UTF-8">
