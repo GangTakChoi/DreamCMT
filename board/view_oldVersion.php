@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../DBcontent/PDO.php");
+include("../DBcontent/DB.php");
 $page = $_GET['page'];
 $category = $_GET['category'];
 $index = $_GET['index'];
@@ -46,33 +46,18 @@ $SERVER_IP = $_SERVER['REMOTE_ADDR'];
 <?php
 /* 조회수 중복방지 */
 
-$dbq = $connection->prepare("SELECT * FROM board_free_hit WHERE ip = :S_IP AND seq_board = :index");
-
-$dbq->bindParam(':index',$index,PDO::PARAM_INT);
-$dbq->bindParam(':S_IP',$SERVER_IP,PDO::PARAM_STR);
-$dbq->execute();
-$row = $dbq->fetch();
-
-if(empty($row)){ // 해당 IP가 처음 조회하는 게시글이라면
-	$dbq = $connection->prepare("INSERT INTO board_free_hit value (:S_IP,:index)"); //중복체크 테이블에 해당 게시글 seq번호와 IP추가
-	$dbq->bindParam(':index',$index,PDO::PARAM_INT);
-	$dbq->bindParam(':S_IP',$SERVER_IP,PDO::PARAM_STR);
-	$dbq->execute();
-
-	$dbq = $connection->prepare("UPDATE board_free SET hit=hit+1 WHERE seq=:index"); // 해당 게시글 조회수 +1
-	$dbq->bindParam(':index',$index,PDO::PARAM_INT);
-	$dbq->execute();
+$result = mysql_query("select * from board_free_hit where ip='".$SERVER_IP."' and seq_board='".$index."'");
+$row = mysql_fetch_array($result);
+if(empty($row)){
+	mysql_query("insert into board_free_hit value ('$SERVER_IP','$index')");
+	mysql_query("update board_free set hit=hit+1 where seq=$index");
 }
 
-$dbq = $connection->prepare("SELECT * FROM board_free WHERE seq=:index"); // 해당 게시글 내용 불어오기
-$dbq->bindParam(':index',$index,PDO::PARAM_INT);
-$dbq->execute();
-$row = $dbq->fetch();
 
-$dbq = $connection->prepare("SELECT * FROM comment_free WHERE seq_board=:index order by seq"); //해당 게시글 댓글 목록 불러오기
-$dbq->bindParam(':index',$index,PDO::PARAM_INT);
-$dbq->execute();
-$row_cmt = $dbq->fetch();
+$result = mysql_query("select * from board_free where seq=$index");
+$row = mysql_fetch_array($result);
+$result = mysql_query("select * from comment_free where seq_board=$index order by seq");
+$row_cmt = mysql_fetch_array($result);
 ?>
 	<div class="view_title">
 		<table style="padding:10px;">
@@ -145,7 +130,7 @@ $row_cmt = $dbq->fetch();
 		})
 	</script>";
 
-	while(!empty($row_cmt)){
+	while($row_cmt){
 	?>
 	<div class="comment">
 		<table style="margin-bottom:10px;">
@@ -154,10 +139,8 @@ $row_cmt = $dbq->fetch();
 				<input type="hidden" name="seq" value="<?php echo $row_cmt['seq']?>" />
 				<td style="text-align:center;width:80px;background-color:#EEEEEE"><?php echo $row_cmt['writer']?></td>
 				<td style="color:#5F5F5F"><?php echo $row_cmt['created']?></td>
-				<td class="up_<?php echo $row_cmt['seq']?>" style="background-color:#BFCCFF;cursor:pointer">공감</td>
-				<td id="plus_<?php echo $row_cmt['seq']?>" style="text-align:center;width:30px"><?php echo $row_cmt['recmd']?></td>
-				<td class="down_<?php echo $row_cmt['seq']?>" style="background-color:#FFADAD;cursor:pointer">비공감</td>
-				<td id="minus_<?php echo $row_cmt['seq']?>" style="text-align:center;width:30px"><?php echo $row_cmt['not_recmd']?></td>
+				<td class="up_<?php echo $row_cmt['seq']?>" style="background-color:#BFCCFF;cursor:pointer">공감</td><td id="plus_<?php echo $row_cmt['seq']?>" style="text-align:center;width:30px"><?php echo $row_cmt['recmd']?></td>
+				<td class="down_<?php echo $row_cmt['seq']?>" style="background-color:#FFADAD;cursor:pointer">비공감</td><td id="minus_<?php echo $row_cmt['seq']?>" style="text-align:center;width:30px"><?php echo $row_cmt['not_recmd']?></td>
 			</tr>
 			</form>
 			<?php echo "
@@ -209,10 +192,8 @@ $row_cmt = $dbq->fetch();
 	</div>
 	
 	<?php
-	$row_cmt = $dbq->fetch();
-	} // 댓글 while문 end부분
-
-	
+	$row_cmt = mysql_fetch_array($result);
+	}
 	if($_SESSION['is_login']==true){?>
 	<div class="comment_input">
 		<form action="/board/board_process.php" name="frm1" method="POST">

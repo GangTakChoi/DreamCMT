@@ -1,6 +1,6 @@
 <?php 
 session_start();
-include("../DBcontent/PDO.php");
+include("../DBcontent/DB.php");
 if(empty($_SESSION['is_login'])){
     ?>
     <meta charset="UTF-8">
@@ -18,13 +18,9 @@ $action = $_POST['action'];
 $index = $_POST['index'];
 $content = nl2br($content);
     switch($action){
-        case 'board_register':        //글등록 동작일 경우
-            $dbq = $connection->prepare("INSERT INTO board_free (title,content,writer,created)
-                VALUES (:title,:content,:nickname,now())");
-            $dbq->bindParam(':title',$title,PDO::PARAM_STR);
-            $dbq->bindParam(':content',$content,PDO::PARAM_STR);
-            $dbq->bindParam(':nickname',$_SESSION['nickname'],PDO::PARAM_STR);
-            $result = $dbq->execute();
+        case 'board_register':         //글등록 동작일 경우
+             $result = mysql_query("INSERT INTO board_free (title,content,writer,created) 
+                VALUES ('".$title."','".$content."','".$_SESSION['nickname']."',now())");
             if($result==true){
                 ?>
                 <meta charset="UTF-8">
@@ -34,12 +30,8 @@ $content = nl2br($content);
             }
         break;
         case 'comment_register':        // 댓글 등록 동작일 경우
-            $dbq = $connection->prepare("INSERT INTO comment_free (seq_board,writer,content,created)
-                VALUES (:index,:nickname,:content,now())");
-            $dbq->bindParam(':index',$index,PDO::PARAM_INT);
-            $dbq->bindParam(':nickname',$_SESSION['nickname'],PDO::PARAM_STR);
-            $dbq->bindParam(':content',$content,PDO::PARAM_STR);
-            $result = $dbq->execute();
+            $result = mysql_query("INSERT INTO comment_free (seq_board,writer,content,created)
+                VALUES ('".$index."','".$_SESSION['nickname']."','".$content."',now())");
             if($result==true){
                 ?>
                 <meta charset="UTF-8">
@@ -48,7 +40,7 @@ $content = nl2br($content);
             }
         break;
         default :
-            echo "<meta charset='UTF-8'><script>alert('잘못된 파라미터 정보입니다.');
+            echo "<meta charset='UTF-8'><script>alert('잘못된접근입니다.');
                     history.go(-1);</script>";
         break;
 

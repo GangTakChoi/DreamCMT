@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("DBcontent/DB.php");
+include("DBcontent/PDO.php");
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +19,7 @@ include("DBcontent/DB.php");
             {
                 document.getElementById("frm1").submit();
             }
-            function press(f){ 
+            function press(f){
                 if(event.keyCode == 13){ //javascript에서는 13이 enter키를 의미함
                 frm1.submit(); //formname에 사용자가 지정한 form의 name입력 
                 } 

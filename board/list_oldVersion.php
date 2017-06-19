@@ -1,6 +1,5 @@
 <?php
 session_start();
-include("../DBcontent/PDO.php");
 include("../DBcontent/DB.php");
 $page = $_GET['page'];
 $category = $_GET['category'];
@@ -75,9 +74,7 @@ if(strcmp($category,"board_free")==false){?>
 					$page=1;
 
 				$value = ($page-1)*20;
-				$dbq = $connection->prepare("SELECT seq,title,writer,created,hit,recmd from :category order by seq DESC limit :value,20");
-
-				$result = mysql_query("select seq,title,writer,created,hit,recmd from ".$category." order by seq DESC limit ".$value.",20");
+				$result = mysql_query("select seq,title,writer,created,hit,recmd,not_recmd from ".$category." order by seq DESC limit ".$value.",20");
 				
 				for($count=1; $count<=20; $count++){
 					$row = mysql_fetch_array($result);

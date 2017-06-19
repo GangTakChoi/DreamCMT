@@ -1,10 +1,20 @@
 <?php
 session_start();
-include("../DBcontent/DB.php");
+include("../DBcontent/PDO.php");
 $page = $_GET['page'];
 $category = $_GET['category'];
-$index = $_GET['index'];
 $SERVER_IP = $_SERVER['REMOTE_ADDR'];
+class Category{
+	const best = "0";
+	const free = "1";
+	const hardware = "2";
+	
+}
+switch($category){
+	case Category::free : $table = "board_free"; break;
+	case Category::best : $table = "board_best"; break;
+	default : $table = "board_free"; break;
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +59,7 @@ $SERVER_IP = $_SERVER['REMOTE_ADDR'];
 <?php 
 
 
-if(strcmp($category,"board_free")==false){?>
+if(strcmp($table,"board_free")==false){?>
 <section> <!-- 본문 -->
 	<article class="boardArticle">
 		
@@ -74,14 +84,19 @@ if(strcmp($category,"board_free")==false){?>
 					$page=1;
 
 				$value = ($page-1)*20;
-				$result = mysql_query("select seq,title,writer,created,hit,recmd,not_recmd from ".$category." order by seq DESC limit ".$value.",20");
+				$dbq = $connection->prepare("SELECT seq,title,writer,created,hit,recmd from $table order by seq DESC limit :value,20");
+				$dbq->bindParam(':value',$value,PDO::PARAM_INT);
+				$dbq->execute();
 				
 				for($count=1; $count<=20; $count++){
-					$row = mysql_fetch_array($result);
-					if($row==false){
+					$row=$dbq->fetch();
+					//$row = mysql_fetch_array($result);
+					if(empty($row)){
 						break;
 					}
+					
 					?>
+						
 						<tr onclick="location.href='/board/view.php?index=<?php echo $row[0]?>'">
 						<td class="no" style="font-size:12px"><?php echo $row[0]?></td>
 						<td class="title"><?php echo $row[1]?></td>
@@ -102,8 +117,8 @@ if(strcmp($category,"board_free")==false){?>
 	</article>
 	<div id="divPaging">
 		<?php
-		$result = mysql_query("select count(*) from board_free");
-		$row = mysql_fetch_array($result);
+		$dbq = $connection->query("SELECT count(*) FROM board_free");
+		$row = $dbq->fetchColumn();
 		if($row[0]%20!=0){
 			$max_page_num = (int)($row[0]/20) + 1;
 		}else{
@@ -136,7 +151,8 @@ if(strcmp($category,"board_free")==false){?>
 		<center>
 	</div>
 </section>
-<?php }else{?>
+<?php }else{
+?>
 <section>
 test
 </section>

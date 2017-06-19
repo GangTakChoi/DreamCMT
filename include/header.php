@@ -13,6 +13,6 @@
         <li><a href="#">고민 상담</a></li>
         <li><a href="#">직업 / 연봉</a></li>
         <li><a href="#">유머</a></li>
-        <li><a href="/board/list.php?page=1&category=board_free">자유게시판</a></li>
+        <li><a href="/board/list.php?page=1&category=1">자유게시판</a></li>
     </ul>
 </header>
