@@ -23,7 +23,7 @@ if($_SESSION['is_login'] == true){
                     <label>나의 게시글</label>
                 </li>
                 <li>
-                    <label>나의 d스크랩목록</label>
+                    <label>나의 스크랩목록</label>
                 </li>
                 <li>
                     <label>내 정보 관리</label>
