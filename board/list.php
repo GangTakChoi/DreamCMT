@@ -7,12 +7,16 @@ $SERVER_IP = $_SERVER['REMOTE_ADDR'];
 class Category{
 	const best = "0";
 	const free = "1";
-	const hardware = "2";
+	const humor = "2";
 	
 }
 switch($category){
-	case Category::free : $table = "board_free"; break;
-	case Category::best : $table = "board_best"; break;
+	case Category::best : $table = "board_best"; $board_name = "베스트게시판";
+						  break; //0
+	case Category::free : $table = "board_free"; $board_name = "자유게시판";
+					   	  break; //1
+	case Category::humor : $table = "board_humor"; $board_name = "유머게시판";
+						  break; //2
 	default : $table = "board_free"; break;
 }
 ?>
@@ -59,11 +63,11 @@ switch($category){
 <?php 
 
 
-if(strcmp($table,"board_free")==false){?>
+if($category>=0 AND $category<=7){?>
 <section> <!-- 본문 -->
 	<article class="boardArticle">
 		
-		<h3 style="display:inline;float:left;margin-top:10px">자유게시판</h3>
+		<h3 style="display:inline;float:left;margin-top:10px"><?php echo $board_name;?></h3>
 		<div class="board_write_button" style="display:inline-block; float:right;margin:10px 0"><a href="/board/write.php?category=board_free" class="button">글쓰기</a></div>
 		
 		<table>

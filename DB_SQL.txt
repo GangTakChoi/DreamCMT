@@ -1,0 +1,109 @@
+
+
+[회원]
+닉네임 10 byte 이하
+아이디 15 byte 이하
+비번   20
+이메일 41
+이름   10
+등록일
+레벨
+
+CREATE TABLE구문
+
+[user]
+CREATE TABLE user(
+seq INT NOT NULL auto_increment,
+id varchar(15) NOT NULL,
+pw varchar(20) NOT NULL,
+nick varchar(18) NOT NULL,
+name varchar(15) NOT NULL,
+email varchar(41) NOT NULL,
+created date NOT NULL,
+level TINYINT NOT NULL,	
+warning TINYINT NOT NULL DEFAULT 0,
+primary key (seq)
+);
+// 0:관리자 1:일반회원  2 이상 : 미정
+
+
+[게시판]
+글번호
+글제목
+내용
+작성자
+작성자_고유번호
+조회수
+추천
+비추천
+등록일
+
+[board]
+CREATE TABLE board_free(
+seq INT NOT NULL auto_increment,
+title VARCHAR(100) NOT NULL,
+content TEXT NOT NULL,
+writer VARCHAR(15) NOT NULL,
+writer_seq INT NOT NULL,
+hit INT NOT NULL DEFAULT 0,
+recmd INT NOT NULL DEFAULT 0,
+not_recmd INT NOT NULL DEFAULT 0,
+created DATETIME NOT NULL,
+primary key (seq)
+);
+
+[댓글]
+게시판번호
+댓글번호
+작성자
+내용
+추천
+비추천
+등록일
+
+CREATE TABLE comment_free(
+seq_board INT NOT NULL,
+seq INT NOT NULL auto_increment,
+writer VARCHAR(15) NOT NULL,
+writer_seq INT NOT NULL,
+content TEXT NOT NULL,
+recmd INT NOT NULL DEFAULT 0,
+not_recmd INT NOT NULL DEFAULT 0,
+created DATETIME NOT NULL,
+primary key (seq)
+);
+
+[베스트 게시판]
+CREATE TABLE board_best(
+seq INT NOT NULL auto_increment,
+seq_board INT NOT NULL,
+category VARCHAR(20) NOT NULL,
+title VARCHAR(100) NOT NULL,
+writer VARCHAR(18) NOT NULL,
+hit INT NOT NULL,
+recmd INT NOT NULL,
+PRIMARY KEY(seq));
+
+
+[댓글 추천/비추천 중복방지 테이블]
+CREATE TABLE comment_free_ip(
+id varchar(20),
+seq_comment int);
+
+
+
+[게시물 조회수 중복방지 테이블]
+CREATE TABLE board_free_hit(
+ip char(15),
+seq_board int);
+
+
+[게시물 추천/비추천 중복방지 테이블]
+CREATE TABLE board_free_recmd(
+id varchar(20),
+seq_board int);
+
+
+
+
+
