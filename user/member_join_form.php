@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Insert title here</title>
-        <link rel="stylesheet" href="/css/basic02.css">
+        <link rel="stylesheet" href="/css/basic.css">
         <link rel="stylesheet" href="/css/normalize.css" />
 	    <link rel="stylesheet" href="/css/board.css" />
         <script>

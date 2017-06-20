@@ -3,7 +3,10 @@ session_start();
 include("../DBcontent/PDO.php");
 $seq = $_POST['seq'];
 $what = $_GET['what'];
-
+//게시판 테이블이름 변수
+//게시판 중복추천 방지 테이블이름 변수
+//해당 게시판의 댓글 테이블이름 변수
+//댓글 테이블 중복 공감/비공감 방지 테이블이름 변수
 
 if($_SESSION['is_login']==true){
 

@@ -15,7 +15,7 @@ $category = $_GET['category'];
     <head>
         <meta charset="UTF-8">
         <title>Insert title here</title>
-        <link rel="stylesheet" href="/css/basic02.css">
+        <link rel="stylesheet" href="/css/basic.css">
         <link rel="stylesheet" href="/css/normalize.css" />
 	    <link rel="stylesheet" href="/css/board.css" />
         <script>
@@ -145,7 +145,7 @@ $category = $_GET['category'];
                     <!--<input type="submit" value="등록하기" style="width:90px; height:40px" class="button"></input>&nbsp;&nbsp;-->
                     <a class="button" onclick="JavaScript:formSubmit()">등록하기</a>
                 </div>
-                <input type="hidden" name="category" value="<?echo $category?>"></input>
+                <input type="hidden" name="category" value="<?php echo $category?>"></input>
                 <input type="hidden" name="action" value="board_register"></input>
                 </form>
             </section>

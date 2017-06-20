@@ -13,7 +13,7 @@ $SERVER_IP = $_SERVER['REMOTE_ADDR'];
         
         <meta charset="UTF-8">
         <title>Insert title here</title>
-        <link rel="stylesheet" href="/css/basic02.css">
+        <link rel="stylesheet" href="/css/basic.css">
         <link rel="stylesheet" href="/css/normalize.css" />
 	    <link rel="stylesheet" href="/css/board.css" />
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -44,8 +44,31 @@ $SERVER_IP = $_SERVER['REMOTE_ADDR'];
            ?> 
 
 <?php
-/* 조회수 중복방지 */
+class Category{
+	const best = "0";
+	const free = "1";
+	const humor = "2";
+}
+switch($category){
+	case Category::free: 
+		$board_table = "board_free";
+		$board_hit_table = "board_free_hit";
+		$comment_table = "comment_free";
+		
+	break;
+	case Category::humor: 
+		$board_table = "board_humor";
+		$board_hit_table = "board_humor_hit";
+		$comment_table = "comment_humor";
+	break;
+}
+//게시판 테이블이름 변수
+//게시판 중복조회 방지 테이블이름 변수
+//해당 게시판 댓글 테이블이름 변수
 
+
+
+/* 조회수 중복방지 */
 $dbq = $connection->prepare("SELECT * FROM board_free_hit WHERE ip = :S_IP AND seq_board = :index");
 
 $dbq->bindParam(':index',$index,PDO::PARAM_INT);
@@ -137,6 +160,7 @@ $row_cmt = $dbq->fetch();
 						alert('유효하지 않을 값을 전달받았습니다.');
 					}
 					else{
+						alert('추천 완료되었습니다!');
 						$('#board_recommend_button').text(data);
 					}
 				}
@@ -176,6 +200,7 @@ $row_cmt = $dbq->fetch();
 								alert('유효하지 않을 값을 전달받았습니다.');
 							}
 							else{
+								alert('공감완료!');
 								$('#plus_".$row_cmt['seq']."').html(data);
 							}
 							
@@ -196,6 +221,7 @@ $row_cmt = $dbq->fetch();
 								alert('유효하지 않을 값을 전달받았습니다.');
 							}
 							else{
+								alert('비공감완료!');
 								$('#minus_".$row_cmt['seq']."').html(data);
 							}
 							
@@ -227,6 +253,7 @@ $row_cmt = $dbq->fetch();
 				</tr>
 			</table>
 			<input type="hidden" name="action" value="comment_register">
+			<input type="hidden" name="category" value="<?php echo $category?>">
 			<input type="hidden" name="index" value="<?php echo $index?>">
 		</form>
 	</div>

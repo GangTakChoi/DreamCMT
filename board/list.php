@@ -27,7 +27,7 @@ switch($category){
         
         <meta charset="UTF-8">
         <title>Insert title here</title>
-        <link rel="stylesheet" href="/css/basic02.css">
+        <link rel="stylesheet" href="/css/basic.css">
         <link rel="stylesheet" href="/css/normalize.css" />
 	    <link rel="stylesheet" href="/css/board.css" />
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -68,7 +68,7 @@ if($category>=0 AND $category<=7){?>
 	<article class="boardArticle">
 		
 		<h3 style="display:inline;float:left;margin-top:10px"><?php echo $board_name;?></h3>
-		<div class="board_write_button" style="display:inline-block; float:right;margin:10px 0"><a href="/board/write.php?category=board_free" class="button">글쓰기</a></div>
+		<div class="board_write_button" style="display:inline-block; float:right;margin:10px 0"><a href="/board/write.php?category=<?php echo $category;?>" class="button">글쓰기</a></div>
 		
 		<table>
 			<thead>
@@ -88,7 +88,7 @@ if($category>=0 AND $category<=7){?>
 					$page=1;
 
 				$value = ($page-1)*20;
-				$dbq = $connection->prepare("SELECT seq,title,writer,created,hit,recmd from $table order by seq DESC limit :value,20");
+				$dbq = $connection->prepare("SELECT seq,title,writer,created,hit,recmd FROM $table ORDER BY seq DESC LIMIT :value,20");
 				$dbq->bindParam(':value',$value,PDO::PARAM_INT);
 				$dbq->execute();
 				
@@ -103,7 +103,7 @@ if($category>=0 AND $category<=7){?>
 						
 						<tr>
 						<td class="no" style="font-size:12px"><?php echo $row['seq']?></td>
-						<td class="title"><a href='/board/view.php?index=<?php echo $row['seq']?>'><?php echo $row['title']?></a></td>
+						<td class="title"><a href='/board/view.php?index=<?php echo $row['seq']?>&category=<?php echo $category?>'><?php echo $row['title']?></a></td>
 						<td class="author" style="font-size:13px"><a href='#'><?php echo $row['writer']?></a></td>
 						<td class="date" style="font-size:11px"><?php echo $row['created']?></td>
 						<td class="hit" style="font-size:11px"><?php echo $row['hit']?></td>

@@ -17,11 +17,29 @@ $action = $_POST['action'];
 $index = $_POST['index'];
 $content = nl2br($content);
 
+class Category{
+	const best = "0";
+	const free = "1";
+	const humor = "2";
+	
+}
+switch($category){
+	case Category::best : $board_table = "board_best";
+						  break; //0
+	case Category::free : $board_table = "board_free";
+                          $comment_table = "comment_free";
+					   	  break; //1
+	case Category::humor : $board_table = "board_humor";
+                           $comment_table = "comment_humor";
+						  break; //2
+	default : $table = "board_free"; break;
+}
+
 $row = $connection->query("SELECT seq,nick FROM user WHERE id='".$_SESSION['id']."'")->fetch();
 
     switch($action){
         case 'board_register':        //글등록 동작일 경우
-            $dbq = $connection->prepare("INSERT INTO board_free (title,content,writer,writer_seq,created)
+            $dbq = $connection->prepare("INSERT INTO $board_table (title,content,writer,writer_seq,created)
                 VALUES (:title,:content,:nickname,:writer_seq,now())");
             $dbq->bindParam(':title',$title,PDO::PARAM_STR);
             $dbq->bindParam(':content',$content,PDO::PARAM_STR);
@@ -37,7 +55,7 @@ $row = $connection->query("SELECT seq,nick FROM user WHERE id='".$_SESSION['id']
             }
         break;
         case 'comment_register':        // 댓글 등록 동작일 경우
-            $dbq = $connection->prepare("INSERT INTO comment_free (seq_board,writer,writer_seq,content,created)
+            $dbq = $connection->prepare("INSERT INTO $comment_table (seq_board,writer,writer_seq,content,created)
                 VALUES (:index,:nickname,:writer_seq,:content,now())");
             $dbq->bindParam(':index',$index,PDO::PARAM_INT);
             $dbq->bindParam(':nickname',$row['nick'],PDO::PARAM_STR);

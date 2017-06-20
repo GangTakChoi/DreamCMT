@@ -1,6 +1,8 @@
 <?php
 session_start();
-include("DBcontent/PDO.php");
+include("../DBcontent/PDO.php");
+$type = $_GET['type'];
+
 ?>
 
 <!DOCTYPE html>
@@ -9,9 +11,9 @@ include("DBcontent/PDO.php");
         
         <meta charset="UTF-8">
         <title>Insert title here</title>
-        <link rel="stylesheet" href="css/basic.css">
-        <link rel="stylesheet" href="css/normalize.css" />
-	    <link rel="stylesheet" href="css/board.css" />
+        <link rel="stylesheet" href="/css/basic.css">
+        <link rel="stylesheet" href="/css/normalize.css" />
+	    <link rel="stylesheet" href="/css/board.css" />
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
         <script>
           
@@ -33,15 +35,20 @@ include("DBcontent/PDO.php");
     <body bgcolor=black>
         <div id ="wrap">
 
-           <?php include("./include/header.php"); ?>  <!-- 해더 -->
+           <?php include("../include/header.php"); ?>  <!-- 해더 -->
 
-           <?php 
-              include("./include/nav.php"); 
-           ?> <!-- 왼쪽 로그인 -->
+           <?php include("../include/nav.php"); ?> <!-- 왼쪽 로그인 -->
            
-            <section>
-             test
-            </section>-- 본문 -->
+           <?php 
+           switch($type){
+               case "my_board": include("./my_board.php"); break;
+               case "my_comment": include("./my_comment.php"); break;
+               case "my_profile": include("./my_profile.php"); break;
+               case "my_scrap": include("./my_scrap.php"); break;
+               default : echo "<section>error</section>"; break;
+           }
+           
+           ?>
         
             <div class="clear"></div>
             

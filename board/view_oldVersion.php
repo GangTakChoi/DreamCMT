@@ -13,7 +13,7 @@ $SERVER_IP = $_SERVER['REMOTE_ADDR'];
         
         <meta charset="UTF-8">
         <title>Insert title here</title>
-        <link rel="stylesheet" href="/css/basic02.css">
+        <link rel="stylesheet" href="/css/basic.css">
         <link rel="stylesheet" href="/css/normalize.css" />
 	    <link rel="stylesheet" href="/css/board.css" />
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
