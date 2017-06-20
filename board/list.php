@@ -121,7 +121,7 @@ if($category>=0 AND $category<=7){?>
 	</article>
 	<div id="divPaging">
 		<?php
-		$row = $connection->query("SELECT count(*) FROM board_free")->fetchColumn();
+		$row = $connection->query("SELECT count(*) FROM $table")->fetchColumn();
 		if($row%20!=0){
 			$max_page_num = (int)($row/20) + 1;
 		}else{

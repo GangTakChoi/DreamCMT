@@ -69,7 +69,7 @@ switch($category){
 
 
 /* 조회수 중복방지 */
-$dbq = $connection->prepare("SELECT * FROM board_free_hit WHERE ip = :S_IP AND seq_board = :index");
+$dbq = $connection->prepare("SELECT * FROM $board_hit_table WHERE ip = :S_IP AND seq_board = :index");
 
 $dbq->bindParam(':index',$index,PDO::PARAM_INT);
 $dbq->bindParam(':S_IP',$SERVER_IP,PDO::PARAM_STR);
@@ -77,22 +77,22 @@ $dbq->execute();
 $row = $dbq->fetch();
 
 if(empty($row)){ // 해당 IP가 처음 조회하는 게시글이라면
-	$dbq = $connection->prepare("INSERT INTO board_free_hit value (:S_IP,:index)"); //중복체크 테이블에 해당 게시글 seq번호와 IP추가
+	$dbq = $connection->prepare("INSERT INTO $board_hit_table value (:S_IP,:index)"); //중복체크 테이블에 해당 게시글 seq번호와 IP추가
 	$dbq->bindParam(':index',$index,PDO::PARAM_INT);
 	$dbq->bindParam(':S_IP',$SERVER_IP,PDO::PARAM_STR);
 	$dbq->execute();
 
-	$dbq = $connection->prepare("UPDATE board_free SET hit=hit+1 WHERE seq=:index"); // 해당 게시글 조회수 +1
+	$dbq = $connection->prepare("UPDATE $board_table SET hit=hit+1 WHERE seq=:index"); // 해당 게시글 조회수 +1
 	$dbq->bindParam(':index',$index,PDO::PARAM_INT);
 	$dbq->execute();
 }
 
-$dbq = $connection->prepare("SELECT * FROM board_free WHERE seq=:index"); // 해당 게시글 내용 불어오기
+$dbq = $connection->prepare("SELECT * FROM $board_table WHERE seq=:index"); // 해당 게시글 내용 불어오기
 $dbq->bindParam(':index',$index,PDO::PARAM_INT);
 $dbq->execute();
 $row = $dbq->fetch();
 
-$dbq = $connection->prepare("SELECT * FROM comment_free WHERE seq_board=:index order by seq"); //해당 게시글 댓글 목록 불러오기
+$dbq = $connection->prepare("SELECT * FROM $comment_table WHERE seq_board=:index order by seq"); //해당 게시글 댓글 목록 불러오기
 $dbq->bindParam(':index',$index,PDO::PARAM_INT);
 $dbq->execute();
 $row_cmt = $dbq->fetch();
@@ -148,7 +148,7 @@ $row_cmt = $dbq->fetch();
 
 		$('#board_recommend_button').click(function(){
 			$.ajax({
-				url:'../jquery/process.php?what=0',
+				url:'../jquery/process.php?what=0&category=$category',
 				type:'post',
 				data:$('.board_recmd').serialize(),
 				success:function(data){
@@ -188,7 +188,7 @@ $row_cmt = $dbq->fetch();
 			<script>
 				$('.up_".$row_cmt['seq']."').click(function(){
 					$.ajax({
-						url:'../jquery/process.php?what=1',
+						url:'../jquery/process.php?what=1&category=$category',
 						type:'post',
 						data:$('.recmd_".$row_cmt['seq']."').serialize(),
 						success:function(data){
@@ -209,7 +209,7 @@ $row_cmt = $dbq->fetch();
 				})
 				$('.down_".$row_cmt['seq']."').click(function(){
 					$.ajax({
-						url:'../jquery/process.php?what=2',
+						url:'../jquery/process.php?what=2&category=$category',
 						type:'post',
 						data:$('.recmd_".$row_cmt['seq']."').serialize(),
 						success:function(data){

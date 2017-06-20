@@ -66,7 +66,7 @@ $row = $connection->query("SELECT seq,nick FROM user WHERE id='".$_SESSION['id']
                 ?>
                 <meta charset="UTF-8">
                 <?php
-                echo "<script>location.replace(\"/board/view.php?index=".$index."\")</script>";
+                echo "<script>location.replace(\"/board/view.php?index=".$index."&category=".$category."\")</script>";
             }
         break;
         default :
