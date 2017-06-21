@@ -160,7 +160,7 @@ $row_cmt = $dbq->fetch();
 						alert('유효하지 않을 값을 전달받았습니다.');
 					}
 					else{
-						alert('추천 완료되었습니다!');
+						
 						$('#board_recommend_button').text(data);
 					}
 				}

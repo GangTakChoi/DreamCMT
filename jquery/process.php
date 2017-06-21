@@ -39,7 +39,7 @@ if($_SESSION['is_login']==true){
         $dbq->bindParam(':id',$_SESSION['id'],PDO::PARAM_STR);
         $dbq->execute();
         $row = $dbq->fetch();
-        if(empty($row)){ // 해당 게시글을 해당 아이디가 추천한 이력이 없을 경우
+        if(/*empty($row)*/true){ // 해당 게시글을 해당 아이디가 추천한 이력이 없을 경우
             $dbq = $connection->prepare("INSERT INTO $board_recmd_table VALUES(:id,:seq)");
             $dbq->bindParam(':id',$_SESSION['id'],PDO::PARAM_STR);
             $dbq->bindParam(':seq',$seq,PDO::PARAM_INT);
@@ -56,13 +56,13 @@ if($_SESSION['is_login']==true){
 
             if($row['recmd']==10){  //추천수가 10개가 되었을때
 
-                $dbq = $connection->prepare("SELECT seq,title,writer,hit,recmd FROM $board_table WHERE seq=:seq");
+                $dbq = $connection->prepare("SELECT seq,recmd FROM $board_table WHERE seq=:seq");
                 $dbq->bindParam(':seq',$seq,PDO::PARAM_INT);
                 $dbq->execute();
                 $row = $dbq->fetch();
                 
-                $dbq = $connection->query("INSERT INTO board_best(seq_board,category,title,writer,hit,recmd)
-                    VALUES('".$row['seq']."','".$board_table."','".$row['title']."','".$row['writer']."','".$row['hit']."','".$row['recmd']."')");
+                $dbq = $connection->query("INSERT INTO board_best(seq_board,board_table,comment_table,category)
+                    VALUES('".$row['seq']."','".$board_table."','".$comment_table."','".$category."')");
                 
             }
             echo "추천 ".$row['recmd'];
