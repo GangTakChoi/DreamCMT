@@ -75,7 +75,7 @@ if($category>=0 AND $category<=7){ ?>
 			<thead>
 				<tr>
 					<th scope="col" class="no">번호</th>
-					<th scope="col" class="date">카테고리</th>
+					<th scope="col" class="category">카테고리</th>
 					<th scope="col" class="title">제목</th>
 					<th scope="col" class="author">작성자</th>
 					<th scope="col" class="hit">조회</th>
@@ -106,10 +106,10 @@ if($category>=0 AND $category<=7){ ?>
 						<?php
 						switch($row['category']){
 							case Category::humor:
-							?><td class="date" style="font-size:13px">유머</td><?php
+							?><td class="category" style="font-size:13px;">유머</td><?php
 							break;
 							case Category::free:
-							?><td class="date" style="font-size:13px">자유</td><?php
+							?><td class="category" style="font-size:13px;">자유</td><?php
 							break;
 						}
 						?>

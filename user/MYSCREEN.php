@@ -1,7 +1,9 @@
 <?php
 session_start();
 include("../DBcontent/PDO.php");
+$page = $_GET['page'];
 $type = $_GET['type'];
+$category = $_GET['category'];
 
 ?>
 

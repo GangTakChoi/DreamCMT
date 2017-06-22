@@ -17,16 +17,16 @@ if($_SESSION['is_login'] == true){
         <div class="vertical_menu" role="navigation">
             <ul>
                 <li>
-                    <label onclick="location.href='../user/MYSCREEN.php?type=my_comment'">나의 댓글</label>
+                    <label onclick="location.href='../user/MYSCREEN.php?type=my_comment&page=1'">나의 댓글</label>
                 </li>
                 <li>
-                    <label onclick="location.href='../user/MYSCREEN.php?type=my_board'">나의 게시글</label>
+                    <label onclick="location.href='../user/MYSCREEN.php?type=my_board&page=1'">나의 게시글</label>
                 </li>
                 <li>
-                    <label onclick="location.href='../user/MYSCREEN.php?type=my_scrap'">나의 스크랩목록</label>
+                    <label onclick="location.href='../user/MYSCREEN.php?type=my_scrap&page=1'">나의 스크랩목록</label>
                 </li>
                 <li>
-                    <label onclick="location.href='../user/MYSCREEN.php?type=my_profile'">내 정보 관리</label>
+                    <label onclick="location.href='../user/MYSCREEN.php?type=my_profile&page=1'">내 정보 관리</label>
                 </li>
             </ul>
         </div>
