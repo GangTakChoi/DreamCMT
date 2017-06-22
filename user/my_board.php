@@ -31,14 +31,26 @@
     $dbq->bindParam(":value",$value,PDO::PARAM_INT);
     $dbq->execute();
     while($my_board = $dbq->fetch()){
+        switch($my_board['category']){
+            case Category::best : $category_name = "베스트게시판";
+            break; //0
+            case Category::free : $category_name = "자유"; $comment_table = "comment_free";
+            break; //1
+            case Category::humor : $category_name = "유머"; $comment_table = "comment_humor";
+            break; //2
+            default : $category_name = "자유"; 
+            break;
+        }
+        $comment_count = $connection->query("SELECT count(*) FROM $comment_table WHERE seq_board=".$my_board['seq'])->fetchColumn();
     ?>
         <tr>
         <td class="no"><?php echo $my_board['seq']?></td>
-        <td class="category"><?php echo $my_board['category']?></td>
+        <td class="category"><?php echo $category_name?></td>
         
         <td class="title">
             <a href='/board/view.php?index=<?php echo $my_board['seq']?>&category=<?php echo $my_board['category']?>'>
             <?php echo $my_board['title']?>
+            <?php if($comment_count>0) {echo "<span style='color:red'> [$comment_count]</span>";}?>
             </a>
         </td>
         
@@ -91,5 +103,5 @@
 		?>
 
 		<center>
-	</div>
+</div>
 </section>

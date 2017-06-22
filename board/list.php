@@ -117,7 +117,9 @@ if($category>=0 AND $category<=7){ ?>
 						<td class="title">
 							<a href='/board/view.php?index=<?php echo $pop['seq']?>&category=<?php echo $row['category']?>'>
 							<?php echo $pop['title'] ?>
-							<?php if($comment_count>0) {echo "  [$comment_count]";}?>
+							
+							<?php if($comment_count>0) {echo "<span style='color:red'> [$comment_count]</span>";}?>
+							
 							</a>
 						</td>
 						<td class="author" style="font-size:13px"><a href='#'><?php echo $pop['writer']?></a></td>
@@ -175,7 +177,7 @@ if($category>=0 AND $category<=7){ ?>
 						<td class="title">
 							<a href='/board/view.php?index=<?php echo $row['seq']?>&category=<?php echo $category?>'>
 							<?php echo $row['title'] ?>
-							<?php if($comment_count>0) {echo "  [$comment_count]";}?>
+							<?php if($comment_count>0) {echo "<span style='color:red'> [$comment_count]</span>";}?>
 							</a>
 						</td>
 						<td class="author" style="font-size:13px"><a href='#'><?php echo $row['writer']?></a></td>

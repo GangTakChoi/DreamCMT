@@ -4,6 +4,11 @@ include("../DBcontent/PDO.php");
 $page = $_GET['page'];
 $type = $_GET['type'];
 $category = $_GET['category'];
+class Category{
+	const best = "0";
+	const free = "1";
+	const humor = "2";
+}
 
 ?>
 
