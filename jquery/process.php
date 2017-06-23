@@ -34,6 +34,7 @@ if($_SESSION['is_login']==true){
 
     
     if($what==0){ // 게시판 추천버튼 클릭한경우
+        
         $dbq = $connection->prepare("SELECT * FROM $board_recmd_table WHERE seq_board=:seq AND id=:id");
         $dbq->bindParam(':seq',$seq,PDO::PARAM_INT);
         $dbq->bindParam(':id',$_SESSION['id'],PDO::PARAM_STR);
@@ -70,7 +71,31 @@ if($_SESSION['is_login']==true){
             echo -1;
         }
         
+    }else if($what==3){ //스크랩을 클릭했을 경우
+     
+        $user_seq = $connection->query("SELECT seq FROM user WHERE id='".$_SESSION['id']."'")->fetch();
+        
+        $dbq = $connection->prepare("SELECT seq FROM user_myscrap WHERE user_seq='".$user_seq['seq']."' AND
+                                        category=:category AND board_seq=:board_seq");
+        
+        $dbq->bindParam(":category",$category,PDO::PARAM_INT);
+        $dbq->bindParam(":board_seq",$seq,PDO::PARAM_INT);
+        $dbq->execute();
+        $row = $dbq->fetch();
+        
+        if(!empty($row)){
+            echo -1; //이미 스크랩을 한 게시글이라면
+        }else{
+            $dbq = $connection->prepare("INSERT INTO user_myscrap(user_seq,category,board_seq) VALUES(:user_seq,:category,:board_seq)");
+            $dbq->bindParam(":user_seq",$user_seq['seq'],PDO::PARAM_INT);
+            $dbq->bindParam(":category",$category,PDO::PARAM_INT);
+            $dbq->bindParam(":board_seq",$seq,PDO::PARAM_INT);
+            $dbq->execute();
+           die();
+        }
+
     }else{ //댓글 공감/비공감을 클릭한 경우
+    
         $dbq = $connection->prepare("SELECT * FROM $comment_ip_table WHERE seq_comment=:seq and id=:id");
         $dbq->bindParam(':seq',$seq,PDO::PARAM_INT);
         $dbq->bindParam(':id',$_SESSION['id'],PDO::PARAM_STR);

@@ -31,7 +31,58 @@ $SERVER_IP = $_SERVER['REMOTE_ADDR'];
             
             
         </script>
-        
+		<style type="text/css">
+		.view_button {
+		border: 1px solid #0a3c59;
+		background: #4e7691;
+		background: -webkit-gradient(linear, left top, left bottom, from(#79b7e0), to(#4e7691));
+		background: -webkit-linear-gradient(top, #79b7e0, #4e7691);
+		background: -moz-linear-gradient(top, #79b7e0, #4e7691);
+		background: -ms-linear-gradient(top, #79b7e0, #4e7691);
+		background: -o-linear-gradient(top, #79b7e0, #4e7691);
+		background-image: -ms-linear-gradient(top, #79b7e0 0%, #4e7691 100%);
+		padding: 5.5px 11px;
+		-webkit-border-radius: 28px;
+		-moz-border-radius: 28px;
+		border-radius: 28px;
+		-webkit-box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+		-moz-box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+		box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+		text-shadow: #828282 0 1px 0;
+		color: #121212;
+		font-size: 14px;
+		font-family: helvetica, serif;
+		text-decoration: none;
+		vertical-align: middle;
+		margin-top:20px;
+		margin-right:10px;
+		}
+		.view_button:hover {
+		border: 1px solid #0a3c59;
+		text-shadow: #1e4158 0 1px 0;
+		background: #3e779d;
+		background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
+		background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
+		background: -moz-linear-gradient(top, #65a9d7, #3e779d);
+		background: -ms-linear-gradient(top, #65a9d7, #3e779d);
+		background: -o-linear-gradient(top, #65a9d7, #3e779d);
+		background-image: -ms-linear-gradient(top, #65a9d7 0%, #3e779d 100%);
+		color: #ffffff;
+		}
+		.view_button:active {
+		text-shadow: #1e4158 0 1px 0;
+		border: 1px solid #0a3c59;
+		background: #65a9d7;
+		background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#3e779d));
+		background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+		background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+		background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+		background: -o-linear-gradient(top, #3e779d, #65a9d7);
+		background-image: -ms-linear-gradient(top, #3e779d 0%, #65a9d7 100%);
+		color: #fff;
+		}
+		</style>
+	
         
     </head>
     <body bgcolor=black>
@@ -134,6 +185,10 @@ $row_cmt = $dbq->fetch();
 	<form class="board_recmd" >
 	<div class="comment" style="border-top:0px solid #C6C5C6;margin-top:-4px;float:left">
 		<button type="button" id="board_recommend_button">추천 <?php echo $row['recmd']?></button>
+		<a href="#" class="view_button" style="float:left"><div id="prev">이전 글</div></a>
+		<a href="#" class="view_button" style="float:left"><div id="next">다음 글</div></a>
+		<a href="#" class="view_button" style="float:left"><div id="go_list">목록보기</div></a>
+		<span id="scrap"><a href="#" class="view_button" style="float:right">스크랩</a></span>
 	</div>
 	<input type="hidden" name="seq" value="<?php echo $row['seq']?>" />
 	</form>
@@ -145,7 +200,27 @@ $row_cmt = $dbq->fetch();
 				$(this).removeClass('hover');
 			}
 		);
+		$('#scrap .view_button').click(function(){
+			$.ajax({
+				url:'../jquery/process.php?what=3&category=$category',
+				type:'post',
+				data:$('.board_recmd').serialize(),
+				success:function(data){
+					if(data==-1){
+						alert('이미 스크랩완료되었습니다');
+					}else if(data==-2){
+						alert('로그인하셔야합니다.');
+					}else if(data==-3){
+						alert('유효하지 않을 값을 전달받았습니다.');
+					}
+					else{
+						alert('스크랩완료되었습니다~');
+						$('#scrap').text('');
+					}
+				}
 
+			})
+		})
 		$('#board_recommend_button').click(function(){
 			$.ajax({
 				url:'../jquery/process.php?what=0&category=$category',
@@ -231,7 +306,9 @@ $row_cmt = $dbq->fetch();
 			</script>
 		";?>
 		</table>
+		<div style="width:704px">
 		<?php echo $row_cmt['content']?>
+		</div>
 	</div>
 	
 	<?php

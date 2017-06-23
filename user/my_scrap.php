@@ -1,7 +1,7 @@
 <section>
 <table style="margin-left:auto;margin-right:auto">
 <tr>
-<td style="font-size:23px;padding:8px 20px 8px 20px;box-shadow:5px 5px 10px #cccccc;background-color:#FFB4B4;">나의 게시글</td>
+<td style="font-size:23px;padding:8px 20px 8px 20px;box-shadow:5px 5px 10px #cccccc;background-color:#FFB4B4;">나의 스크랩목록</td>
 </tr>
 </table>
 
@@ -27,37 +27,39 @@
     $value = ($page-1)*20;
 
     $user_seq = $connection->query("SELECT seq FROM user WHERE id='".$_SESSION['id']."'")->fetch();
-    $dbq = $connection->prepare("SELECT seq,category,title,created,hit,recmd FROM board_free WHERE writer_seq='".$user_seq['seq']."' UNION ALL
-                               SELECT seq,category,title,created,hit,recmd FROM board_humor WHERE writer_seq='".$user_seq['seq']."' ORDER BY created DESC LIMIT :value,20");
+    $dbq = $connection->prepare("SELECT * FROM user_myscrap WHERE user_seq='".$user_seq['seq']."' ORDER BY seq DESC LIMIT :value,20");
     $dbq->bindParam(":value",$value,PDO::PARAM_INT);
     $dbq->execute();
-    while($my_board = $dbq->fetch()){
-        switch($my_board['category']){
+    while($my_scrap = $dbq->fetch()){
+        switch($my_scrap['category']){
             case Category::best : $category_name = "베스트게시판";
             break; //0
             case Category::free : $category_name = "자유"; $comment_table = "comment_free";
+                                  $board_table = "board_free";
             break; //1
             case Category::humor : $category_name = "유머"; $comment_table = "comment_humor";
+                                  $board_table = "board_humor";
             break; //2
-            default : $category_name = "자유"; 
+            default : $category_name = "자유"; $comment_table = "comment_free"; $board_table = "board_free"; 
             break;
         }
-        $comment_count = $connection->query("SELECT count(*) FROM $comment_table WHERE seq_board=".$my_board['seq'])->fetchColumn();
+        $comment_count = $connection->query("SELECT count(*) FROM $comment_table WHERE seq_board=".$my_scrap['board_seq'])->fetchColumn();
+        $board = $connection->query("SELECT * FROM $board_table WHERE seq='".$my_scrap['board_seq']."'")->fetch();
     ?>
         <tr>
-        <td class="no"><?php echo $my_board['seq']?></td>
+        <td class="no"><?php echo $my_scrap['seq']?></td>
         <td class="category"><?php echo $category_name?></td>
         
-        <td class="title">
-            <a href='/board/view.php?index=<?php echo $my_board['seq']?>&category=<?php echo $my_board['category']?>'>
-            <?php echo $my_board['title']?>
-            <?php if($comment_count>0) {echo "<span style='color:red'> [$comment_count]</span>";}?>
+        <td class="title" >
+            <a href='/board/view.php?index=<?php echo $board['seq']?>&category=<?php echo $my_scrap['category']?>'>
+            <?php echo $board['title'];?>
             </a>
+            <?php if($comment_count>0) {echo "<span style='color:red'> [$comment_count]</span>";}?>
         </td>
-        
-        <td class="date" style="font-size:13px"><?php echo substr($my_board['created'],0,16);?></td>
-        <td class="hit" style="font-size:11px"><?php echo $my_board['hit']?></td>
-        <td class="hit"><?php echo $my_board['recmd']?></td>
+        <td class="author"><?php echo $board['writer']?></td>
+        <td class="date" style="font-size:13px"><?php echo substr($board['created'],0,16);?></td>
+        <td class="hit" style="font-size:11px"><?php echo $board['hit']?></td>
+        <td class="hit"><?php echo $board['recmd']?></td>
         </tr>
     <?php 
     }
@@ -68,8 +70,8 @@
 
 <div id="divPaging">
 		<?php
-		$row = $connection->query("SELECT count(*) FROM board_free WHERE writer_seq='".$user_seq['seq']."'")->fetchColumn();
-        $row = $row + $connection->query("SELECT count(*) FROM board_humor WHERE writer_seq='".$user_seq['seq']."'")->fetchColumn();
+		$row = $connection->query("SELECT count(*) FROM user_myscrap WHERE user_seq='".$user_seq['seq']."'")->fetchColumn();
+        
 		if($row%20!=0){
 			$max_page_num = (int)($row/20) + 1;
 		}else{
