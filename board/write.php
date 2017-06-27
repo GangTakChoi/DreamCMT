@@ -135,7 +135,7 @@ $category = $_GET['category'];
                 <form id="freeboard_form" action="board_process.php" method="POST">
                 <table class="board_register_table">
                 <tr class="title">
-                    <td class="name">제목</td><td class="input"><input type="text" style="width:720px;" name="title"></td>
+                    <td class="name">제목</td><td class="input"><input type="text" style="width:720px;" name="title" maxlength="31"></td>
                 </tr>
                 <tr class="content">
                     <td class="name">내용</td><td class="input"><textarea style="width:720px; height:460px" name="content"></textarea></td>

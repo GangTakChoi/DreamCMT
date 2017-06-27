@@ -16,6 +16,7 @@ $category = $_POST['category'];
 $action = $_POST['action'];
 $index = $_POST['index'];
 $content = nl2br($content);
+$user_fetch = $connection->query("SELECT seq FROM user WHERE id='".$_SESSION['id']."'")->fetch();
 
 class Category{
 	const best = "0";
@@ -69,6 +70,8 @@ $row = $connection->query("SELECT seq,nick FROM user WHERE id='".$_SESSION['id']
                 echo "<script>location.replace(\"/board/view.php?index=".$index."&category=".$category."\")</script>";
             }
         break;
+        case 'board_delete':
+            $dbq = $connection->query("DELETE FROM $board_table WHERE seq=$index");
         default :
             echo "<meta charset='UTF-8'><script>alert('잘못된 파라미터 정보입니다.');
                     history.go(-1);</script>";

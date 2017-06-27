@@ -94,7 +94,7 @@ if($category>=0 AND $category<=7){ ?>
 				
 				for($count=1; $count<=20; $count++){
 					$row=$dbq->fetch();
-					//$row = mysql_fetch_array($result);
+
 					if(empty($row)){
 						break;
 					}
@@ -115,11 +115,14 @@ if($category>=0 AND $category<=7){ ?>
 						?>
 						
 						<td class="title">
-							<a href='/board/view.php?index=<?php echo $pop['seq']?>&category=<?php echo $row['category']?>'>
-							<?php echo $pop['title'] ?>
-							
-							<?php if($comment_count>0) {echo "<span style='color:red'> [$comment_count]</span>";}?>
-							
+							<a href='/board/view.php?index=<?php echo $pop['seq']?>&category=<?php echo $row['category']?>&page=<?php echo $page?>&best=1'>
+							<?php 
+							if(empty($pop)) 
+							 	echo "<a style='color:#C1C1C1'>삭제된 게시글입니다.</a>";
+							else {
+								echo $pop['title'];
+								if($comment_count>0) {echo "<span style='color:red'> [$comment_count]</span>";}
+								}?>
 							</a>
 						</td>
 						<td class="author" style="font-size:13px"><a href='#'><?php echo $pop['writer']?></a></td>
@@ -175,7 +178,7 @@ if($category>=0 AND $category<=7){ ?>
 						<tr>
 						<td class="no" style="font-size:12px"><?php echo $row['seq']?></td>
 						<td class="title">
-							<a href='/board/view.php?index=<?php echo $row['seq']?>&category=<?php echo $category?>'>
+							<a href='/board/view.php?index=<?php echo $row['seq']?>&category=<?php echo $category?>&&page=<?php echo $page?>'>
 							<?php echo $row['title'] ?>
 							<?php if($comment_count>0) {echo "<span style='color:red'> [$comment_count]</span>";}?>
 							</a>
@@ -243,6 +246,6 @@ if($category>=0 AND $category<=7){ ?>
 <?php }else{
 ?>
 <section>
-test
+error
 </section>
 <?php }?>

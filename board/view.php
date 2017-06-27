@@ -4,7 +4,9 @@ include("../DBcontent/PDO.php");
 $page = $_GET['page'];
 $category = $_GET['category'];
 $index = $_GET['index'];
+$best = $_GET['best'];
 $SERVER_IP = $_SERVER['REMOTE_ADDR'];
+$user_fetch = $connection->query("SELECT seq FROM user WHERE id='".$_SESSION['id']."'")->fetch();
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +23,7 @@ $SERVER_IP = $_SERVER['REMOTE_ADDR'];
           
             function formSubmit()
             {
-                document.getElementById("frm1").submit();
+                document.getElementById("Adelete").submit();
             }
             function press(f){ 
                 if(event.keyCode == 13){ //javascript에서는 13이 enter키를 의미함
@@ -137,6 +139,8 @@ if(empty($row)){ // 해당 IP가 처음 조회하는 게시글이라면
 	$dbq->bindParam(':index',$index,PDO::PARAM_INT);
 	$dbq->execute();
 }
+$max_seq = $connection->query("SELECT seq FROM $board_table ORDER BY seq DESC LIMIT 0,1")->fetch();
+$min_seq = $connection->query("SELECT seq FROM $board_table ORDER BY seq ASC LIMIT 0,1")->fetch();
 
 $dbq = $connection->prepare("SELECT * FROM $board_table WHERE seq=:index"); // 해당 게시글 내용 불어오기
 $dbq->bindParam(':index',$index,PDO::PARAM_INT);
@@ -147,6 +151,23 @@ $dbq = $connection->prepare("SELECT * FROM $comment_table WHERE seq_board=:index
 $dbq->bindParam(':index',$index,PDO::PARAM_INT);
 $dbq->execute();
 $row_cmt = $dbq->fetch();
+if(empty($row)){ //삭제된 글인지 확인?>
+<div style="width:868px;display:inline-block;height:300px;text-align:center;padding-top:200px;
+position:relative;background-color:white;margin:3px;">
+	삭제된 글입니다.<br><br><br><center>
+	<?php if($max_seq['seq']>$index){?>
+	<a href="/board/view.php?index=<?php echo $index+1?>&category=<?php echo $category?>&page=<?php echo $page?>" >
+	<div id="prev">이전 글</div></a><?php }?>
+	<?php if($min_seq['seq']<$index){?>
+	<a href="/board/view.php?index=<?php echo $index-1?>&category=<?php echo $category?>&page=<?php echo $page?>" >
+	<div id="next">다음 글</div></a><?php }?>
+	<a href="/board/list.php?category=<?php echo $category?>&page=<?php echo $page?>"><div id="go_list">목록보기</div></a>
+	</center>
+</div>
+<?php
+die();
+}
+if($best==1){ $category=0;}
 ?>
 	<div class="view_title">
 		<table style="padding:10px;">
@@ -185,9 +206,25 @@ $row_cmt = $dbq->fetch();
 	<form class="board_recmd" >
 	<div class="comment" style="border-top:0px solid #C6C5C6;margin-top:-4px;float:left">
 		<button type="button" id="board_recommend_button">추천 <?php echo $row['recmd']?></button>
-		<a href="#" class="view_button" style="float:left"><div id="prev">이전 글</div></a>
-		<a href="#" class="view_button" style="float:left"><div id="next">다음 글</div></a>
-		<a href="#" class="view_button" style="float:left"><div id="go_list">목록보기</div></a>
+		
+		<?php if($max_seq['seq']>$row['seq']){?>
+		<a href="/board/view.php?index=<?php echo $row['seq']+1?>&category=<?php echo $category?>&page=<?php echo $page?>" class="view_button" style="float:left">
+		<div id="prev">이전 글</div></a><?php }?>
+		<?php if($min_seq['seq']<$row['seq']){?>
+		<a href="/board/view.php?index=<?php echo $row['seq']-1?>&category=<?php echo $category?>&page=<?php echo $page?>" class="view_button" style="float:left">
+		<div id="next">다음 글</div></a><?php }?>
+		<a href="/board/list.php?category=<?php echo $category?>&page=<?php echo $page?>" class="view_button" style="float:left"><div id="go_list">목록보기</div></a>
+		<?php if($row['writer_seq']==$user_fetch['seq']){?>
+		<a href="/board/board_process.php?category=<?php echo $category?>&index=<?php echo $index?>" class="view_button" style="float:left"><div id="go_list">수정</div></a>
+		
+		<form id="Adelete" action="board_process.php" method="POST">
+		<a onclick="JavaScript:formSubmit()" class="view_button" style="float:left"><div id="go_list">삭제</div></a>
+		<input type="hidden" name="action" value="board_delete" />
+		<input type="hidden" name="index" value="<?echo $row['seq']?>" />
+		<input type="hidden" name="category" value="<?echo $category?>" />
+		</form>
+
+		<?php }?>
 		<span id="scrap"><a href="#" class="view_button" style="float:right">스크랩</a></span>
 	</div>
 	<input type="hidden" name="seq" value="<?php echo $row['seq']?>" />
