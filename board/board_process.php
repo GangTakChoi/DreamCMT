@@ -22,7 +22,6 @@ class Category{
 	const best = "0";
 	const free = "1";
 	const humor = "2";
-	
 }
 switch($category){
 	case Category::best : $board_table = "board_best";
@@ -71,7 +70,24 @@ $row = $connection->query("SELECT seq,nick FROM user WHERE id='".$_SESSION['id']
             }
         break;
         case 'board_delete':
-            $dbq = $connection->query("DELETE FROM $board_table WHERE seq=$index");
+            $writer_seq = $connection->query("SELECT writer_seq FROM $board_table WHERE seq=$index")->fetch();
+            if($user_fetch['seq']==$writer_seq['writer_seq']){
+                $dbq = $connection->prepare("DELETE FROM $board_table WHERE seq=:index");
+                $dbq->bindParam(":index",$index,PDO::PARAM_INT);
+                if($dbq->execute()){
+                    echo "<meta charset='UTF-8'><script>alert('삭제완료');
+                    location.replace('/board/list.php?category=$category');</script>";
+                }else{
+                    echo "<meta charset='UTF-8'><script>alert('DB작업중 오류가 발생하였습니다.');
+                    location.replace('/board/view.php?index=$index&category=$category');</script>";
+                }
+            }else{
+                echo "<meta charset='UTF-8'><script>alert('[권한부족]본인 소유의 글이 아닙니다');
+                location.replace('/board/view.php?index=$index&category=$category');</script>";
+            }
+            
+            
+        break;
         default :
             echo "<meta charset='UTF-8'><script>alert('잘못된 파라미터 정보입니다.');
                     history.go(-1);</script>";

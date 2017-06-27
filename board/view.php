@@ -203,7 +203,7 @@ if($best==1){ $category=0;}
 	<section style="padding:15px;height:auto; min-height:250px"> <!-- 본문 -->
 		<?php echo $row['content']?>
 	</section>
-	<form class="board_recmd" >
+	<form class="board_recmd" action="/board/board_process.php" method="POST">
 	<div class="comment" style="border-top:0px solid #C6C5C6;margin-top:-4px;float:left">
 		<button type="button" id="board_recommend_button">추천 <?php echo $row['recmd']?></button>
 		
@@ -217,12 +217,12 @@ if($best==1){ $category=0;}
 		<?php if($row['writer_seq']==$user_fetch['seq']){?>
 		<a href="/board/board_process.php?category=<?php echo $category?>&index=<?php echo $index?>" class="view_button" style="float:left"><div id="go_list">수정</div></a>
 		
-		<form id="Adelete" action="board_process.php" method="POST">
-		<a onclick="JavaScript:formSubmit()" class="view_button" style="float:left"><div id="go_list">삭제</div></a>
-		<input type="hidden" name="action" value="board_delete" />
-		<input type="hidden" name="index" value="<?echo $row['seq']?>" />
-		<input type="hidden" name="category" value="<?echo $category?>" />
-		</form>
+		
+		<input type="submit" class="view_button" style="float:left" value="삭제"></input>
+		<input type="hidden" name="action" value="board_delete"></input>
+		<input type="hidden" name="index" value="<?php echo $row['seq']?>"></input>
+		<input type="hidden" name="category" value="<?php echo $category?>"></input>
+		
 
 		<?php }?>
 		<span id="scrap"><a href="#" class="view_button" style="float:right">스크랩</a></span>
