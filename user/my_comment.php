@@ -29,8 +29,9 @@ $board_seq = $comment_data['seq_board'];
             default : $category_name = "자유"; 
             break;
         }
- $board_data = $connection->query("SELECT title,created FROM $board_table WHERE seq=$board_seq")->fetch();
-
+ $board_data = $connection->query("SELECT title,created,category,seq FROM $board_table WHERE seq=$board_seq")->fetch();
+ $index = $board_data['seq'];
+ $category = $board_data['category'];
 ?>
 
 
@@ -42,7 +43,11 @@ $board_seq = $comment_data['seq_board'];
 <td rowspan=3 style="width:20px"><input type="checkbox" name="check1"></td>
 <td style="width:90px; background-color:#EAE9FF; text-align:center;height:30px">게시글</td>
 <td style="width:550px;height:30px;padding-left:10px;">
-<?php echo $board_data['title']?>
+<?php if(!empty($board_data))
+		echo "<a href='/board/view.php?index=$index&category=$category'>".$board_data['title']."</a>";
+	  else
+	  	echo "<a style='color:#C1C1C1'>삭제된글입니다</a>";
+?>
 </td>
 <td style="width:70px; background-color:#EAE9FF; text-align:center;height:30px">등록일</td>
 <td colspan=2 style="width:110px;text-align:center;height:30px"><?php echo substr($board_data['created'],0,11)?></td>

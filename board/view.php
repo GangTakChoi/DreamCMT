@@ -167,7 +167,7 @@ position:relative;background-color:white;margin:3px;">
 <?php
 die();
 }
-if($best==1){ $category=0;}
+
 ?>
 	<div class="view_title">
 		<table style="padding:10px;">
@@ -282,18 +282,31 @@ if($best==1){ $category=0;}
 	</script>";
 
 	while(!empty($row_cmt)){
+	if($row_cmt['recmd']<10)
+		echo "<div class='comment'>";
+	else if($row_cmt['recmd']>=10 && $row_cmt['recmd']<20)
+		echo "<div class='comment' style='background-color:#FFF5E3'>";
+	else if($row_cmt['recmd']>=20 && $row_cmt['recmd']<30)
+		echo "<div class='comment' style='background-color:#FFF0D7'>";
+	else if($row_cmt['recmd']>=30 && $row_cmt['recmd']<50)
+		echo "<div class='comment' style='background-color:#FFE9C7'>";
+	else if($row_cmt['recmd']>=50 && $row_cmt['recmd']<100)
+		echo "<div class='comment' style='background-color:#FFD082'>";
+	else if($row_cmt['recmd']>=100)
+		echo "<div class='comment' style='background-color:#FF9599'>";
+		
 	?>
-	<div class="comment">
+
 		<table style="margin-bottom:10px;">
 			<form class="recmd_<?php echo $row_cmt['seq']?>">
 			<tr>
 				<input type="hidden" name="seq" value="<?php echo $row_cmt['seq']?>" />
 				<td style="text-align:center;width:80px;background-color:#EEEEEE"><?php echo $row_cmt['writer']?></td>
-				<td style="color:#5F5F5F"><?php echo $row_cmt['created']?></td>
+				<td style="color:#5F5F5F;background-color:white"><?php echo $row_cmt['created']?></td>
 				<td class="up_<?php echo $row_cmt['seq']?>" style="background-color:#BFCCFF;cursor:pointer">공감</td>
-				<td id="plus_<?php echo $row_cmt['seq']?>" style="text-align:center;width:30px"><?php echo $row_cmt['recmd']?></td>
+				<td id="plus_<?php echo $row_cmt['seq']?>" style="text-align:center;width:30px;color:blue;background-color:white"><?php echo $row_cmt['recmd']?></td>
 				<td class="down_<?php echo $row_cmt['seq']?>" style="background-color:#FFADAD;cursor:pointer">비공감</td>
-				<td id="minus_<?php echo $row_cmt['seq']?>" style="text-align:center;width:30px"><?php echo $row_cmt['not_recmd']?></td>
+				<td id="minus_<?php echo $row_cmt['seq']?>" style="text-align:center;width:30px;color:red;background-color:white"><?php echo $row_cmt['not_recmd']?></td>
 			</tr>
 			</form>
 			<?php echo "

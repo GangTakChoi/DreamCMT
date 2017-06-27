@@ -178,7 +178,7 @@ if($category>=0 AND $category<=7){ ?>
 						<tr>
 						<td class="no" style="font-size:12px"><?php echo $row['seq']?></td>
 						<td class="title">
-							<a href='/board/view.php?index=<?php echo $row['seq']?>&category=<?php echo $category?>&&page=<?php echo $page?>'>
+							<a href='/board/view.php?index=<?php echo $row['seq']?>&category=<?php echo $category?>&page=<?php echo $page?>'>
 							<?php echo $row['title'] ?>
 							<?php if($comment_count>0) {echo "<span style='color:red'> [$comment_count]</span>";}?>
 							</a>

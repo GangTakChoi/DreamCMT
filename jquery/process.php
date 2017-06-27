@@ -101,7 +101,7 @@ if($_SESSION['is_login']==true){
         $dbq->bindParam(':id',$_SESSION['id'],PDO::PARAM_STR);
         $dbq->execute();
         $row = $dbq->fetch();
-        if(empty($row)){  // 해당 댓글에 공감/비공감을 누른적이 없을경우
+        if(/*empty($row)*/true){  // 해당 댓글에 공감/비공감을 누른적이 없을경우
         
             $dbq = $connection->prepare("INSERT INTO $comment_ip_table VALUES(:id,:seq)");
             $dbq->bindParam(':id',$_SESSION['id'],PDO::PARAM_STR);

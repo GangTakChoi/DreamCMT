@@ -36,7 +36,15 @@ class Category{
             
             
         </script>
-        
+        <style type="text/css">
+            a:hover{
+                text-decoration:underline;
+            }
+            a{
+                color:black;
+                text-decoration:none;
+            }
+        </style>
         
     </head>
     <body bgcolor=black>
