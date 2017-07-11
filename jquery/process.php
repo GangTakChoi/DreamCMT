@@ -2,6 +2,9 @@
 session_start();
 include("../DBcontent/PDO.php");
 $seq = $_POST['seq'];
+$kind = $_GET['kind'];
+$id = $_POST['id'];
+$nickname = $_POST['nickname'];
 $category = $_GET['category'];
 $what = $_GET['what'];
 //게시판 테이블이름 변수
@@ -29,6 +32,28 @@ switch($category){
 	break;
 }
 
+if(strcmp($what,"join")==false){
+    if(strcmp($kind,"id_check")==false){
+        $dbq = $connection->prepare("SELECT id FROM user WHERE id=:id");
+        $dbq->bindParam(':id',$id,PDO::PARAM_STR);
+        $dbq->execute();
+        
+        if(empty($dbq->fetch()))
+            echo "사용 가능한 아이디입니다";
+        else
+            echo "중복된 아이디입니다";
+    }else if(strcmp($kind,"nick_check")==false){
+        $dbq = $connection->prepare("SELECT id FROM user WHERE nick=:nick");
+        $dbq->bindParam(':nick',$nickname,PDO::PARAM_STR);
+        $dbq->execute();
+
+        if(empty($dbq->fetch()))
+            echo "사용 가능한 닉네임입니다";
+        else
+            echo "중복된 닉네임입니다";
+    }
+    die();
+}
 if($_SESSION['is_login']==true){
 
 
@@ -138,6 +163,8 @@ if($_SESSION['is_login']==true){
 }else{
     echo -2; // 로그인을 하지 않았을 경우
 }
+
+
 
 
 

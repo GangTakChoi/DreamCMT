@@ -52,7 +52,7 @@ if($_SESSION['is_login'] == true){
         </tr>
         <tr>
     </table>
-    <table height=40 onclick="location.href='/user/member_join_form.php'"  style="margin:15px 0">
+    <table height=40 onclick="location.href='/user/member_join_form_new.php'"  style="margin:15px 0">
         <tr bgcolor=black id="join_button"><td width=205 align="center"><a href="#" style="text-decoration:none;color:white;">회원가입</a></td></tr>
     </table>
     </div>

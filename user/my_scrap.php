@@ -6,9 +6,13 @@
 </table>
 
 <article class="boardArticle">
+<input type="submit" value="선택된 댓글 삭제"></input>
+<input type='button' onclick='scrap_check_all();' value='모두 선택' />
+<input type='button' onclick='scrap_uncheck_all();' value='모두 해제' />
 <table style="margin-top:15px">
     <thead>
         <tr style="font-size:15px">
+            <th class="no" style="width:20px"></th>
             <th class="no">번호</th>
             <th class="category">카테고리</th>
             <th class="title">제목</th>
@@ -47,12 +51,17 @@
         $board = $connection->query("SELECT * FROM $board_table WHERE seq='".$my_scrap['board_seq']."'")->fetch();
     ?>
         <tr>
+        <td class="no" style="width:20px"><input type="checkbox" name="scrap_seq[]" id="scrap_seq"/></td>
         <td class="no"><?php echo $my_scrap['seq']?></td>
         <td class="category"><?php echo $category_name?></td>
         
-        <td class="title" >
+        <td class="title">
             <a href='/board/view.php?index=<?php echo $board['seq']?>&category=<?php echo $my_scrap['category']?>'>
-            <?php echo $board['title'];?>
+            <?php 
+            if(empty($board))
+                echo "<a style='color:#C1C1C1'>삭제된글입니다</a>"; 
+            else           
+                echo $board['title'];?>
             </a>
             <?php if($comment_count>0) {echo "<span style='color:red'> [$comment_count]</span>";}?>
         </td>

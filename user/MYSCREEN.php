@@ -23,9 +23,27 @@ class Category{
 	    <link rel="stylesheet" href="/css/board.css" />
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
         <script>
-          
-            function formSubmit()
-            {
+            function comment_check_all() {
+                for(i=0; i < comment_form.comment_seq.length; i++) {
+                    comment_form.comment_seq[i].checked = true;
+                }
+            }
+            function comment_uncheck_all() {
+                for(i=0; i < comment_form.comment_seq.length; i++) {
+                    comment_form.comment_seq[i].checked = false;
+                }
+            }
+            function scrap_check_all() {
+                for(i=0; i < comment_form.comment_seq.length; i++) {
+                    comment_form.comment_seq[i].checked = true;
+                }
+            }
+            function scrap_uncheck_all() {
+                for(i=0; i < comment_form.comment_seq.length; i++) {
+                    comment_form.comment_seq[i].checked = false;
+                }
+            }
+            function formSubmit() {
                 document.getElementById("frm1").submit();
             }
             function press(f){
@@ -44,6 +62,18 @@ class Category{
                 color:black;
                 text-decoration:none;
             }
+            section input[type=button],section input[type=submit] { 
+            width: 150px; 
+            height: 40px;
+            
+            background-color: orange; 
+            color: white;  
+            margin: 15px 0; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; } 
+            section input[type=button]:hover { background-color: OrangeRed; } 
+            section input[type=submit]:hover { background-color: OrangeRed; } 
         </style>
         
     </head>

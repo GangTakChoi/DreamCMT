@@ -371,7 +371,7 @@ footer {
     padding:8px;
     box-sizing:border-box;
 }
-.comment_input input[type="submit"]{
+.comment_input input[type="button"]{
     width:142px;
     height:92px;
     margin:0px;

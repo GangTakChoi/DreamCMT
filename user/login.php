@@ -18,7 +18,9 @@ if(!empty($row)){
     <meta charset="UTF-8">
     <script type="text/javascript">
     alert("로그인성공하였습니다!!");
-    location.replace("/index.php");
+    history.go(-1);
+    //location.replace("/index.php");
+
     </script>
 
     <?php

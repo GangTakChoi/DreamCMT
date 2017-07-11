@@ -24,8 +24,6 @@ include("DBcontent/PDO.php");
                 frm1.submit(); //formname에 사용자가 지정한 form의 name입력 
                 } 
             }
-            
-            
         </script>
         
         

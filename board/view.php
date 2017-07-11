@@ -23,14 +23,31 @@ $user_fetch = $connection->query("SELECT seq FROM user WHERE id='".$_SESSION['id
           
             function formSubmit()
             {
-                document.getElementById("Adelete").submit();
+                document.getElementById("frm1").submit();
             }
             function press(f){ 
                 if(event.keyCode == 13){ //javascript에서는 13이 enter키를 의미함
                 frm1.submit(); //formname에 사용자가 지정한 form의 name입력 
                 } 
             }
-            
+            function delete_click()
+			{
+				if(!confirm("삭제하겠습니까?")){
+					// 아니오라면,
+					exit;
+				}else{
+					document.getElementById("board_recmd").submit();
+				}
+				
+			}
+			function comment_reg()
+			{
+				if(document.comment_form.content.value==""){
+					alert('내용을 입력해주세요~');
+					exit;
+				}
+				document.getElementById("comment_form").submit();
+			}
             
         </script>
 		<style type="text/css">
@@ -130,7 +147,7 @@ $dbq->execute();
 $row = $dbq->fetch();
 
 if(empty($row)){ // 해당 IP가 처음 조회하는 게시글이라면
-	$dbq = $connection->prepare("INSERT INTO $board_hit_table value (:S_IP,:index)"); //중복체크 테이블에 해당 게시글 seq번호와 IP추가
+	$dbq = $connection->prepare("INSERT INTO $board_hit_table VALUES (:S_IP,:index)"); //중복체크 테이블에 해당 게시글 seq번호와 IP추가
 	$dbq->bindParam(':index',$index,PDO::PARAM_INT);
 	$dbq->bindParam(':S_IP',$SERVER_IP,PDO::PARAM_STR);
 	$dbq->execute();
@@ -203,7 +220,7 @@ die();
 	<section style="padding:15px;height:auto; min-height:250px"> <!-- 본문 -->
 		<?php echo $row['content']?>
 	</section>
-	<form class="board_recmd" action="/board/board_process.php" method="POST">
+	<form id="board_recmd" class="board_recmd" action="/board/board_process.php" method="POST">
 	<div class="comment" style="border-top:0px solid #C6C5C6;margin-top:-4px;float:left">
 		<button type="button" id="board_recommend_button">추천 <?php echo $row['recmd']?></button>
 		
@@ -218,7 +235,7 @@ die();
 		<a href="/board/board_process.php?category=<?php echo $category?>&index=<?php echo $index?>" class="view_button" style="float:left"><div id="go_list">수정</div></a>
 		
 		
-		<input type="submit" class="view_button" style="float:left" value="삭제"></input>
+		<input type="button" class="view_button" style="float:left" value="삭제" onclick="delete_click(); return false"></input>
 		<input type="hidden" name="action" value="board_delete"></input>
 		<input type="hidden" name="index" value="<?php echo $row['seq']?>"></input>
 		<input type="hidden" name="category" value="<?php echo $category?>"></input>
@@ -282,18 +299,19 @@ die();
 	</script>";
 
 	while(!empty($row_cmt)){
-	if($row_cmt['recmd']<10)
+		$recmd = $row_cmt['recmd']-$row_cmt['not_recmd'];
+	if($recmd<10)
 		echo "<div class='comment'>";
-	else if($row_cmt['recmd']>=10 && $row_cmt['recmd']<20)
-		echo "<div class='comment' style='background-color:#FFF5E3'>";
-	else if($row_cmt['recmd']>=20 && $row_cmt['recmd']<30)
-		echo "<div class='comment' style='background-color:#FFF0D7'>";
-	else if($row_cmt['recmd']>=30 && $row_cmt['recmd']<50)
-		echo "<div class='comment' style='background-color:#FFE9C7'>";
-	else if($row_cmt['recmd']>=50 && $row_cmt['recmd']<100)
-		echo "<div class='comment' style='background-color:#FFD082'>";
-	else if($row_cmt['recmd']>=100)
-		echo "<div class='comment' style='background-color:#FF9599'>";
+	else if($recmd>=10 && $recmd<20)
+		echo "<div class='comment' style='background-color:#DDFFE6'>";
+	else if($recmd>=20 && $recmd<30)
+		echo "<div class='comment' style='background-color:#D0FFDC'>";
+	else if($recmd>=30 && $recmd<50)
+		echo "<div class='comment' style='background-color:#BFFFCF'>";
+	else if($recmd>=50 && $recmd<100)
+		echo "<div class='comment' style='background-color:#A0FFB8'>";
+	else if($recmd>=100)
+		echo "<div class='comment' style='background-color:#71FF94'>";
 		
 	?>
 
@@ -368,14 +386,14 @@ die();
 	
 	if($_SESSION['is_login']==true){?>
 	<div class="comment_input">
-		<form action="/board/board_process.php" name="frm1" method="POST">
+		<form action="/board/board_process.php" id="comment_form" name="comment_form" method="POST">
 			<table style="height:90px;padding:0px;box-sizing:border-box">
 				<tr>
 					<td style="width:708px">
-						<textarea name="content" style="width:710px;height:92px;resize:none;box-sizing:border-box;vertical-align:middle"></textarea>
+						<textarea name="content" id="content" style="width:710px;height:92px;resize:none;box-sizing:border-box;vertical-align:middle"></textarea>
 					</td>
 					<td>
-						<input type="submit" value="등록" style="display:inline-block"></input>
+						<input type="button" value="등록" style="display:inline-block" onclick="comment_reg(); return false;"></input>
 					</td>
 				</tr>
 			</table>
